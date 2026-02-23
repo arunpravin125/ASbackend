@@ -10,6 +10,8 @@ import datetime
 import swisseph as swe
 from fastapi.middleware.cors import CORSMiddleware
 import traceback
+import httpx
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
 # Add the current directory to sys.path to allow imports from kp_core
 backend_root = os.path.dirname(os.path.abspath(__file__))
@@ -34,6 +36,31 @@ async def startup_event():
         await init_db()
     except Exception as e:
         print(f"Database initialization failed: {e}")
+    
+    # Start the periodic ping job to keep the server awake
+    start_ping_job()
+
+async def ping_server():
+    api_url = os.getenv("API_URL")
+    if not api_url:
+        print("API_URL environment variable is not set. Skipping ping.")
+        return
+        
+    try:
+        async with httpx.AsyncClient() as client:
+            res = await client.get(api_url)
+            if res.status_code == 200:
+                print("GET request sent successfully")
+            else:
+                print(f"GET request failed with status code: {res.status_code}")
+    except Exception as e:
+        print(f"Error while sending request: {e}")
+
+def start_ping_job():
+    scheduler = AsyncIOScheduler()
+    scheduler.add_job(ping_server, 'interval', minutes=14)
+    scheduler.start()
+    print("Ping job started. Running every 14 minutes.")
 
 # Enable CORS for Streamlit
 app.add_middleware(
