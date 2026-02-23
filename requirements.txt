@@ -1,0 +1,14 @@
+fastapi
+uvicorn
+pydantic
+pandas
+pyswisseph
+numpy
+geopy
+requests
+python-multipart
+pytz
+beanie
+motor
+passlib[bcrypt]
+python-jose[cryptography]

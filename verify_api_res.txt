@@ -1,0 +1,141 @@
+Sending request to http://127.0.0.1:8000/analyze...
+Status Code: 200
+Response JSON:
+{
+  "muhurta_analysis": {
+    "method": "Authentic KP Muhurta Analysis",
+    "timestamp": "2026-02-21T23:09:59.322343",
+    "house_groups": {
+      "strong_houses": [
+        1,
+        2,
+        3,
+        6,
+        10,
+        11
+      ],
+      "weak_houses": [
+        4,
+        5,
+        7,
+        8,
+        12,
+        9
+      ]
+    },
+    "promise_test": {
+      "analysis": {
+        "cusp_1": {
+          "sub_lord": "Ke",
+          "strength_data": {
+            "net_strength": -1.5,
+            "classification": "Weak",
+            "highest_house": 8,
+            "highest_rule": 1
+          },
+          "score": -1.5
+        },
+        "cusp_6": {
+          "sub_lord": "Ju",
+          "strength_data": {
+            "net_strength": -1.45,
+            "classification": "Weak",
+            "highest_house": 12,
+            "highest_rule": 1
+          },
+          "score": -1.45
+        },
+        "cusp_7": {
+          "sub_lord": "Ke",
+          "strength_data": {
+            "net_strength": -1.5,
+            "classification": "Weak",
+            "highest_house": 8,
+            "highest_rule": 1
+          },
+          "score": -1.5
+        },
+        "cusp_11": {
+          "sub_lord": "Me",
+          "strength_data": {
+            "net_strength": -1.45,
+            "classification": "Weak",
+            "highest_house": 12,
+            "highest_rule": 1
+          },
+          "score": -1.45
+        }
+      },
+      "total_score": -7.35
+    },
+    "ruling_planets": {
+      "day_lord": {
+        "planet": "Sa",
+        "strength": -1.25
+      },
+      "lagna_lord": {
+        "planet": "Mercury",
+        "strength": -1.45
+      }
+    },
+    "final_verdict": {
+      "verdict": "Strong Promise for Descendant",
+      "eleventh_cusp_strength": -1.45
+    }
+  },
+  "planets_df": "{\"columns\":[\"longitude\",\"sign\",\"sign_lord\",\"nl\",\"sl\",\"ssl\",\"sssl\",\"is_retrograde\",\"Score\",\"Significators\",\"Comment\"],\"index\":[\"Sun\",\"Moon\",\"Mars\",\"Mercury\",\"Jupiter\",\"Venus\",\"Saturn\",\"Rahu\",\"Ketu\",\"Asc\"],\"data\":[[308.6515531913,\"Aquarius\",\"Sa\",\"Ra\",\"Ra\",\"Ma\",\"Su\",false,-0.9109766916,\"8, 8, 3\",\"Score enhanced by +0.589\"],[357.9883002199,\"Pisces\",\"Ju\",\"Me\",\"Sa\",\"Sa\",\"Me\",false,0.0456290264,\"9, 10, 4\",\"No special conditions\"],[298.6414748271,\"Capricorn\",\"Sa\",\"Ma\",\"Sa\",\"Ke\",\"Me\",false,-1.0499271011,\"8, 8, 6, 11, 6, 11\",\"\\u26a0\\ufe0f Mars exalted in Capricorn (anomaly) (\\u00b11\\u00b0) (Authority) | Score enhanced by +0.450\"],[326.5257881562,\"Aquarius\",\"Sa\",\"Ju\",\"Ke\",\"Me\",\"Ju\",false,-0.706550323,\"12, 9, 7, 4\",\"Score enhanced by +0.373\"],[81.4714901058,\"Gemini\",\"Me\",\"Ju\",\"Ju\",\"Ma\",\"Me\",true,-0.8198790224,\"12, 12, 7, 7\",\"Score enhanced by +0.530\"],[319.6216482387,\"Aquarius\",\"Sa\",\"Ra\",\"Ma\",\"Me\",\"Me\",false,-0.7994861283,\"8, 9, 5\",\"Score enhanced by +0.351\"],[336.7074126895,\"Pisces\",\"Ju\",\"Sa\",\"Me\",\"Ra\",\"Ve\",false,-0.4700897671,\"9, 9\",\"No special conditions\"],[315.3210878638,\"Aquarius\",\"Sa\",\"Ra\",\"Ve\",\"Ve\",\"Mo\",true,-1.458,\"Own: 8, 8, 8, 9, 8, 8, 8, 9, 6, 11, 3, 6, 11 | Agent(Venus): 8, 9, 5\",\"Rahu acts as Venus agent (Venus negative \\u2192 pro-Desc) (Amplified +15%)\"],[135.3210878638,\"Leo\",\"Su\",\"Ve\",\"Ve\",\"Me\",\"Ra\",true,-1.082,\"Own: 8, 9, 2, 8, 5, 3 | Agent(Venus): 8, 9, 5\",\"Ketu acts as Venus agent (Venus negative \\u2192 pro-Desc) (Detached -15%)\"],[86.3995845616,\"Gemini\",\"Me\",\"Ju\",\"Ke\",\"Sa\",\"Mo\",null,-0.4252386203,\"12, 1, 7\",\"Score enhanced by +0.225\"]]}",
+  "cusps_df": "{\"columns\":[\"longitude\",\"sign\",\"sign_lord\",\"nl\",\"sl\",\"ssl\",\"sssl\"],\"index\":[1,2,3,4,5,6,7,8,9,10,11,12],\"data\":[[86.3995845616,\"Gemini\",\"Me\",\"Ju\",\"Ke\",\"Sa\",\"Mo\"],[111.466608891,\"Cancer\",\"Mo\",\"Me\",\"Ve\",\"Ke\",\"Mo\"],[139.5535176956,\"Leo\",\"Su\",\"Ve\",\"Ra\",\"Ve\",\"Ra\"],[171.3136524429,\"Virgo\",\"Me\",\"Mo\",\"Ve\",\"Ra\",\"Ju\"],[204.6241728582,\"Libra\",\"Ve\",\"Ju\",\"Me\",\"Su\",\"Ju\"],[236.5716871044,\"Scorpio\",\"Ma\",\"Me\",\"Ju\",\"Sa\",\"Ra\"],[266.3995845616,\"Sagittarius\",\"Ju\",\"Ve\",\"Ke\",\"Ju\",\"Su\"],[291.466608891,\"Capricorn\",\"Sa\",\"Mo\",\"Ve\",\"Ra\",\"Ve\"],[319.5535176956,\"Aquarius\",\"Sa\",\"Ra\",\"Ma\",\"Sa\",\"Su\"],[351.3136524429,\"Pisces\",\"Ju\",\"Me\",\"Ve\",\"Me\",\"Ra\"],[24.6241728582,\"Aries\",\"Ma\",\"Ve\",\"Me\",\"Ve\",\"Sa\"],[56.5716871044,\"Taurus\",\"Ve\",\"Ma\",\"Ju\",\"Sa\",\"Ra\"]]}",
+  "asc_timeline_df": "{\"columns\":[\"Start Time\",\"End Time\",\"NL_Planet\",\"SL_Planet\",\"Score\",\"Verdict\",\"Comment\",\"NL_Influence\",\"SL_Influence\",\"Event_Magnitude\",\"Convergence_Factor\",\"SL_Indicator\"],\"index\":[0,1,2,3,4,5,6,7,8,9],\"data\":[[1771668000000,1771668043000,\"Ju\",\"Ke\",-0.4885758045,\"Advantage Desc\",\"\\ud83c\\udf1f Ju dominance (57.1%) | \\u2696\\ufe0f Ke modification (42.9%) | \\ufffd\\ufffd High convergence - aligned energies | \\ud83c\\udfcf Opposition builds pressure and momentum | \\ud83d\\udcca Magnitude: 0.98 | NL:-0.82 SL:-1.08 Combined:-0.489 | MEDIUM\",0.5714285714,0.4285714286,0.98,2.0,\"(KE RETRO) DSC\"],[1771668043000,1771668642000,\"Ju\",\"Ve\",-0.403821643,\"Advantage Desc\",\"\\ud83c\\udf1f Ju dominance (57.1%) | \\u2696\\ufe0f Ve modification (42.9%) | \\ufffd\\ufffd High convergence - aligned energies | \\ud83c\\udfcf Opposition builds pressure and momentum | \\ud83d\\udcca Magnitude: 0.98 | NL:-0.82 SL:-0.80 Combined:-0.404 | MEDIUM\",0.5714285714,0.4285714286,0.98,2.0,\"SL DSC\"],[1771668642000,1771668822000,\"Ju\",\"Su\",-0.437268812,\"Advantage Desc\",\"\\ud83c\\udf1f Ju dominance (57.1%) | \\u2696\\ufe0f Su modification (42.9%) | \\ufffd\\ufffd High convergence - aligned energies | \\ud83c\\udfcf Opposition builds pressure and momentum | \\ud83d\\udcca Magnitude: 0.98 | NL:-0.82 SL:-0.91 Combined:-0.437 | MEDIUM\",0.5714285714,0.4285714286,0.98,2.0,\"SL DSC\"],[1771668822000,1771669121000,\"Ju\",\"Mo\",-0.1502870966,\"Balanced (Slight Desc)\",\"\\ud83c\\udf1f Ju dominance (32.9%) | \\u2696\\ufe0f Mo modification (67.1%) | \\u26a1 Mixed signals - competing influences | \\ud83c\\udfcf Slight opposition edge - careful play needed | \\ud83d\\udcca Magnitude: 0.68 | NL:-0.82 SL:+0.05 Combined:-0.150 | LOW\",0.3294117647,0.6705882353,0.68,0.8,\"LOOKS DSC\"],[1771669121000,1771669331000,\"Ju\",\"Ma\",-0.4789539348,\"Advantage Desc\",\"\\ud83c\\udf1f Ju dominance (57.1%) | \\u2696\\ufe0f Ma modification (42.9%) | \\ufffd\\ufffd High convergence - aligned energies | \\ud83c\\udfcf Opposition builds pressure and momentum | \\ud83d\\udcca Magnitude: 0.98 | NL:-0.82 SL:-1.05 Combined:-0.479 | MEDIUM\",0.5714285714,0.4285714286,0.98,2.0,\"CAN BE DSC\"],[1771669331000,1771669870000,\"Ju\",\"Ra\",-0.6013758045,\"Advantage Desc\",\"\\ud83c\\udf1f Ju dominance (57.1%) | \\u2696\\ufe0f Ra modification (42.9%) | \\ufffd\\ufffd High convergence - aligned energies | \\ud83c\\udfcf Opposition builds pressure and momentum | \\ud83d\\udcca Magnitude: 0.98 | NL:-0.82 SL:-1.46 Combined:-0.601 | MEDIUM\",0.5714285714,0.4285714286,0.98,2.0,\"(RA RETRO) SL DSC\"],[1771669870000,1771670439000,\"Sa\",\"Sa\",-0.2350448835,\"Balanced (Slight Desc)\",\"\\ud83c\\udf1f Sa dominance (57.1%) | \\u2696\\ufe0f Sa modification (42.9%) | \\ufffd\\ufffd High convergence - aligned energies | \\ud83c\\udfcf Slight opposition edge - careful play needed | \\ud83d\\udcca Magnitude: 3.99 | NL:-0.47 SL:-0.47 Combined:-0.235 | LOW\",0.5714285714,0.4285714286,3.99,2.0,\"SL DSC\"],[1771670439000,1771670947000,\"Sa\",\"Me\",-0.3059830503,\"Advantage Desc\",\"\\ud83c\\udf1f Sa dominance (84.4%) | \\u2696\\ufe0f Me modification (15.6%) | \\ufffd\\ufffd High convergence - aligned energies | \\ud83c\\udfcf Opposition builds pressure and momentum | \\ud83d\\udcca Magnitude: 2.70 | NL:-0.47 SL:-0.71 Combined:-0.306 | MEDIUM\",0.8444444444,0.1555555556,2.7,2.0,\"SL DSC\"],[1771670947000,1771671157000,\"Sa\",\"Ke\",-0.4186179534,\"Advantage Desc\",\"\\ud83c\\udf1f Sa dominance (84.4%) | \\u2696\\ufe0f Ke modification (15.6%) | \\ufffd\\ufffd High convergence - aligned energies | \\ud83c\\udfcf Opposition builds pressure and momentum | \\ud83d\\udcca Magnitude: 2.70 | NL:-0.47 SL:-1.08 Combined:-0.419 | MEDIUM\",0.8444444444,0.1555555556,2.7,2.0,\"(KE RETRO) DSC\"],[1771671157000,1771671600000,\"Sa\",\"Ve\",-0.3338637919,\"Advantage Desc\",\"\\ud83c\\udf1f Sa dominance (84.4%) | \\u2696\\ufe0f Ve modification (15.6%) | \\ufffd\\ufffd High convergence - aligned energies | \\ud83c\\udfcf Opposition builds pressure and momentum | \\ud83d\\udcca Magnitude: 2.70 | NL:-0.47 SL:-0.80 Combined:-0.334 | MEDIUM\",0.8444444444,0.1555555556,2.7,2.0,\"SL DSC\"]]}",
+  "asc_timeline_analysis": {
+    "summary": "The enhanced dynamic NL+SL timeline shows an average score of -0.385 with event magnitude 1.77. This indicates a general advantage for Desc based on dynamic Star Lord and Sub Lord layer analysis.",
+    "favorable_planets": [
+      "Mo"
+    ],
+    "unfavorable_planets": [
+      "Ju",
+      "Ke",
+      "Ma",
+      "Me",
+      "Ra",
+      "Sa",
+      "Su",
+      "Ve"
+    ],
+    "average_magnitude": 1.767,
+    "high_intensity_periods": 4,
+    "method": "dynamic_nl_sl_analysis"
+  },
+  "moon_timeline_df": "{\"columns\":[\"Start Time\",\"End Time\",\"NL_Planet\",\"SL_Planet\",\"SSL_Planet\",\"Score\",\"Verdict\",\"Comment\",\"NL_Influence\",\"SL_Influence\",\"SSL_Influence\",\"Event_Magnitude\",\"Convergence_Factor\",\"Lagna_Sign\"],\"index\":[0,1,2],\"data\":[[1771668000000,1771669453000,\"Me\",\"Sa\",\"Sa\",-0.5389,\"Advantage Desc\",\"[Lagna: Gemini] Opposition builds pressure and momentum\",0.1642228739,0.5014662757,0.3343108504,3.41,2.0,\"Gemini\"],[1771669453000,1771671303000,\"Me\",\"Sa\",\"Me\",-0.7124,\"Advantage Desc\",\"[Lagna: Cancer] Opposition builds pressure and momentum\",0.2196078431,0.6705882353,0.1098039216,2.55,2.0,\"Cancer\"],[1771671303000,1771671600000,\"Me\",\"Sa\",\"Ke\",-0.9574,\"Strong Advantage Desc\",\"[Lagna: Cancer] Challenging period - wickets or pressure likely\",0.2196078431,0.6705882353,0.1098039216,2.55,2.0,\"Cancer\"]]}",
+  "moon_timeline_analysis": {
+    "summary": "The enhanced dynamic timeline shows an average score of -0.736 with event magnitude 2.84. This indicates a general advantage for Desc with varying intensity periods based on planetary layer dynamics. Moon SSL predictions flow dynamically with lagna movement.",
+    "favorable_planets": [],
+    "unfavorable_planets": [
+      "Ke",
+      "Me",
+      "Sa"
+    ],
+    "average_magnitude": 2.836666666666666,
+    "high_intensity_periods": 1,
+    "method": "dynamic_layer_analysis_with_lagna_movement"
+  },
+  "detailed_timelines": {
+    "nl_timeline": "{\"columns\":[\"Start Time\",\"End Time\",\"NL_Planet\",\"SL_Planet\",\"SSL_Planet\",\"SSSL_Planet\",\"Score\",\"Verdict\",\"Comment\",\"Lagna_Sign\"],\"index\":[0],\"data\":[[1771668000000,1771671600000,\"Me\",\"Sa\",\"Sa\",\"Me\",-0.6592582118,\"Strong Advantage Desc\",\"[Lagna: Gemini] Dominant influence from Me\",\"Gemini\"]]}",
+    "sl_timeline": "{\"columns\":[\"Start Time\",\"End Time\",\"NL_Planet\",\"SL_Planet\",\"SSL_Planet\",\"SSSL_Planet\",\"Score\",\"Verdict\",\"Comment\",\"Lagna_Sign\"],\"index\":[0],\"data\":[[1771668000000,1771671600000,\"Me\",\"Sa\",\"Sa\",\"Me\",-0.5410279338,\"Strong Advantage Desc\",\"[Lagna: Gemini] Dominant influence from Sa\",\"Gemini\"]]}",
+    "ssl_timeline": "{\"columns\":[\"Start Time\",\"End Time\",\"NL_Planet\",\"SL_Planet\",\"SSL_Planet\",\"SSSL_Planet\",\"Score\",\"Verdict\",\"Comment\",\"Lagna_Sign\"],\"index\":[0,1,2],\"data\":[[1771668000000,1771669453000,\"Me\",\"Sa\",\"Sa\",\"Me\",-0.5261358227,\"Strong Advantage Desc\",\"[Lagna: Gemini] Dominant influence from Sa\",\"Gemini\"],[1771669453000,1771671303000,\"Me\",\"Sa\",\"Me\",\"Me\",-0.6311121562,\"Strong Advantage Desc\",\"[Lagna: Cancer] Dominant influence from Me\",\"Cancer\"],[1771671303000,1771671600000,\"Me\",\"Sa\",\"Ke\",\"Ke\",-0.8653819624,\"Strong Advantage Desc\",\"[Lagna: Cancer] Dominant influence from Ke\",\"Cancer\"]]}",
+    "sssl_timeline": "{\"columns\":[\"Start Time\",\"End Time\",\"NL_Planet\",\"SL_Planet\",\"SSL_Planet\",\"SSSL_Planet\",\"Score\",\"Verdict\",\"Comment\",\"Lagna_Sign\"],\"index\":[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20],\"data\":[[1771668000000,1771668006000,\"Me\",\"Sa\",\"Sa\",\"Me\",-0.6254661006,\"Strong Advantage Desc\",\"[Lagna: Gemini] Dominant influence from Me\",\"Gemini\"],[1771668006000,1771668126000,\"Me\",\"Sa\",\"Sa\",\"Ke\",-0.831963423,\"Strong Advantage Desc\",\"[Lagna: Gemini] Dominant influence from Ke\",\"Gemini\"],[1771668126000,1771668471000,\"Me\",\"Sa\",\"Sa\",\"Ve\",-0.6765807936,\"Strong Advantage Desc\",\"[Lagna: Gemini] Dominant influence from Ve\",\"Gemini\"],[1771668471000,1771668575000,\"Me\",\"Sa\",\"Sa\",\"Su\",-0.7379006033,\"Strong Advantage Desc\",\"[Lagna: Gemini] Dominant influence from Su\",\"Gemini\"],[1771668575000,1771668747000,\"Me\",\"Sa\",\"Sa\",\"Mo\",-0.2117674585,\"Advantage Desc\",\"[Lagna: Gemini] Moderate influence from Mo\",\"Gemini\"],[1771668747000,1771668868000,\"Me\",\"Sa\",\"Sa\",\"Ma\",-0.8143233286,\"Strong Advantage Desc\",\"[Lagna: Gemini] Dominant influence from Ma\",\"Gemini\"],[1771668868000,1771669178000,\"Me\",\"Sa\",\"Sa\",\"Ra\",-1.038763423,\"Strong Advantage Desc\",\"[Lagna: Gemini] Dominant influence from Ra\",\"Gemini\"],[1771669178000,1771669453000,\"Me\",\"Sa\",\"Sa\",\"Ju\",-0.6736718853,\"Strong Advantage Desc\",\"[Lagna: Cancer] Dominant influence from Ju\",\"Cancer\"],[1771669453000,1771669715000,\"Me\",\"Sa\",\"Me\",\"Me\",-0.6692062396,\"Strong Advantage Desc\",\"[Lagna: Cancer] Dominant influence from Me\",\"Cancer\"],[1771669715000,1771669823000,\"Me\",\"Sa\",\"Me\",\"Ke\",-0.875703562,\"Strong Advantage Desc\",\"[Lagna: Cancer] Dominant influence from Ke\",\"Cancer\"],[1771669823000,1771670132000,\"Me\",\"Sa\",\"Me\",\"Ve\",-0.7203209325,\"Strong Advantage Desc\",\"[Lagna: Cancer] Dominant influence from Ve\",\"Cancer\"],[1771670132000,1771670224000,\"Me\",\"Sa\",\"Me\",\"Su\",-0.7816407423,\"Strong Advantage Desc\",\"[Lagna: Cancer] Dominant influence from Su\",\"Cancer\"],[1771670224000,1771670378000,\"Me\",\"Sa\",\"Me\",\"Mo\",-0.2555075975,\"Advantage Desc\",\"[Lagna: Cancer] Moderate influence from Mo\",\"Cancer\"],[1771670378000,1771670486000,\"Me\",\"Sa\",\"Me\",\"Ma\",-0.8580634675,\"Strong Advantage Desc\",\"[Lagna: Cancer] Dominant influence from Ma\",\"Cancer\"],[1771670486000,1771670764000,\"Me\",\"Sa\",\"Me\",\"Ra\",-1.082503562,\"Strong Advantage Desc\",\"[Lagna: Cancer] Dominant influence from Ra\",\"Cancer\"],[1771670764000,1771671010000,\"Me\",\"Sa\",\"Me\",\"Ju\",-0.7315370243,\"Strong Advantage Desc\",\"[Lagna: Cancer] Dominant influence from Ju\",\"Cancer\"],[1771671010000,1771671303000,\"Me\",\"Sa\",\"Me\",\"Sa\",-0.5391529338,\"Strong Advantage Desc\",\"[Lagna: Cancer] Dominant influence from Sa\",\"Cancer\"],[1771671303000,1771671348000,\"Me\",\"Sa\",\"Ke\",\"Ke\",-0.9733159812,\"Strong Advantage Desc\",\"[Lagna: Cancer] Dominant influence from Ke\",\"Cancer\"],[1771671348000,1771671475000,\"Me\",\"Sa\",\"Ke\",\"Ve\",-0.8179333518,\"Strong Advantage Desc\",\"[Lagna: Cancer] Dominant influence from Ve\",\"Cancer\"],[1771671475000,1771671513000,\"Me\",\"Sa\",\"Ke\",\"Su\",-0.8792531616,\"Strong Advantage Desc\",\"[Lagna: Cancer] Dominant influence from Su\",\"Cancer\"],[1771671513000,1771671600000,\"Me\",\"Sa\",\"Ke\",\"Mo\",-0.3531200167,\"Advantage Desc\",\"[Lagna: Cancer] Moderate influence from Mo\",\"Cancer\"]]}"
+  },
+  "simplified_timeline_df": "{\"columns\":[\"Time (IST)\",\"Time (Local)\",\"Start Time\",\"Indicator\",\"Technical Note (Moon SSSL \\/ Lagna)\",\"Moon_SSSL\",\"Moon_SL\",\"Moon_SSL\",\"Lagna_Sign\",\"NL_Score\",\"SL_Score\",\"SSL_Score\",\"Base_Score\",\"Final_Score\",\"BN_Rule_Label\",\"BN_Rule_Level\",\"BN_Rule_Hit\",\"BN_Value\",\"BN_Value_Move\",\"BN_Value_Note\",\"wicket_strength\"],\"index\":[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20],\"data\":[[\"03:30:00 PM\",\"03:30:00 PM\",\"2026-02-21T10:00:00+00:00\",\"DSC\",\"Match Start: Lagna in Gemini (Favors Team B)\",\"Me\",\"Sa\",\"Sa\",\"Gemini\",-0.706550323,-0.4700897671,-0.5240897671,-0.5389,-0.5389,null,0.0,false,null,0.0,\"\",0.1],[\"03:33:07 PM\",\"03:33:07 PM\",\"2026-02-21T10:03:07+00:00\",\"DSC\",\"Sustained Team B advantage\",\"Ve\",\"Sa\",\"Sa\",\"Gemini\",-0.706550323,-0.4700897671,-0.5240897671,-0.5389,-0.5389,null,0.0,false,null,0.0,\"\",0.8],[\"03:36:10 PM\",\"03:36:10 PM\",\"2026-02-21T10:06:10+00:00\",\"DSC\",\"Sustained Team B advantage\",\"Ve\",\"Sa\",\"Sa\",\"Gemini\",-0.706550323,-0.4700897671,-0.5240897671,-0.5389,-0.5389,null,0.0,false,null,0.0,\"\",0.8],[\"03:39:13 PM\",\"03:39:13 PM\",\"2026-02-21T10:09:13+00:00\",\"DSC\",\"Sustained Team B advantage\",\"Su\",\"Sa\",\"Sa\",\"Gemini\",-0.706550323,-0.4700897671,-0.5240897671,-0.5389,-0.5389,null,0.0,false,null,0.0,\"\",0.1],[\"03:42:16 PM\",\"03:42:16 PM\",\"2026-02-21T10:12:16+00:00\",\"DSC\",\"Sustained Team B advantage\",\"Mo\",\"Sa\",\"Sa\",\"Gemini\",-0.706550323,-0.4700897671,-0.5240897671,-0.5389,-0.5389,null,0.0,false,null,0.0,\"\",0.1],[\"03:45:21 PM\",\"03:45:21 PM\",\"2026-02-21T10:15:21+00:00\",\"DSC\",\"Sustained Team B advantage\",\"Ra\",\"Sa\",\"Sa\",\"Gemini\",-0.706550323,-0.4700897671,-0.5240897671,-0.5389,-0.5389,null,0.0,false,null,0.0,\"\",0.1],[\"03:46:14 PM\",\"03:46:14 PM\",\"2026-02-21T10:16:14+00:00\",\"DSC (NOTE IT)\",\"Lagna in Cancer | Moon SSSL: Saturn\",\"Ra\",\"Sa\",\"Sa\",\"Cancer\",-0.706550323,-0.4700897671,-0.4675897671,-0.4222,-0.4222,null,0.0,false,null,0.0,\"\",0.1],[\"03:49:19 PM\",\"03:49:19 PM\",\"2026-02-21T10:19:19+00:00\",\"DSC (NOTE IT)\",\"Sustained Team B advantage\",\"Ra\",\"Sa\",\"Sa\",\"Cancer\",-0.706550323,-0.4700897671,-0.4675897671,-0.4222,-0.4222,null,0.0,false,null,0.0,\"\",0.1],[\"03:52:23 PM\",\"03:52:23 PM\",\"2026-02-21T10:22:23+00:00\",\"DSC (NOTE IT)\",\"Sustained Team B advantage\",\"Ju\",\"Sa\",\"Sa\",\"Cancer\",-0.706550323,-0.4700897671,-0.4675897671,-0.4222,-0.4222,null,0.0,false,null,0.0,\"\",0.1],[\"03:54:19 PM\",\"03:54:19 PM\",\"2026-02-21T10:24:19+00:00\",\"DSC\",\"Momentum Shift: Team B builds pressure\",\"Me\",\"Sa\",\"Me\",\"Cancer\",-0.706550323,-0.4700897671,-0.699050323,-0.7124,-0.7124,null,0.0,false,null,0.0,\"\",0.1],[\"03:57:26 PM\",\"03:57:26 PM\",\"2026-02-21T10:27:26+00:00\",\"DSC\",\"Sustained Team B advantage\",\"Me\",\"Sa\",\"Me\",\"Cancer\",-0.706550323,-0.4700897671,-0.699050323,-0.7124,-0.7124,null,0.0,false,null,0.0,\"\",0.1],[\"04:00:29 PM\",\"04:00:29 PM\",\"2026-02-21T10:30:29+00:00\",\"DSC\",\"Sustained Team B advantage\",\"Ve\",\"Sa\",\"Me\",\"Cancer\",-0.706550323,-0.4700897671,-0.699050323,-0.7124,-0.7124,null,0.0,false,null,0.0,\"\",0.8],[\"04:03:37 PM\",\"04:03:37 PM\",\"2026-02-21T10:33:37+00:00\",\"DSC\",\"Sustained Team B advantage\",\"Ve\",\"Sa\",\"Me\",\"Cancer\",-0.706550323,-0.4700897671,-0.699050323,-0.7124,-0.7124,null,0.0,false,null,0.0,\"\",0.8],[\"04:06:41 PM\",\"04:06:41 PM\",\"2026-02-21T10:36:41+00:00\",\"DSC\",\"Sustained Team B advantage\",\"Su\",\"Sa\",\"Me\",\"Cancer\",-0.706550323,-0.4700897671,-0.699050323,-0.7124,-0.7124,null,0.0,false,null,0.0,\"\",0.1],[\"04:09:45 PM\",\"04:09:45 PM\",\"2026-02-21T10:39:45+00:00\",\"DSC\",\"Sustained Team B advantage\",\"Ma\",\"Sa\",\"Me\",\"Cancer\",-0.706550323,-0.4700897671,-0.699050323,-0.7124,-0.7124,null,0.0,false,null,0.0,\"\",0.1],[\"04:12:46 PM\",\"04:12:46 PM\",\"2026-02-21T10:42:46+00:00\",\"DSC\",\"Sustained Team B advantage\",\"Ra\",\"Sa\",\"Me\",\"Cancer\",-0.706550323,-0.4700897671,-0.699050323,-0.7124,-0.7124,null,0.0,false,null,0.0,\"\",0.1],[\"04:15:57 PM\",\"04:15:57 PM\",\"2026-02-21T10:45:57+00:00\",\"DSC\",\"Sustained Team B advantage\",\"Ra\",\"Sa\",\"Me\",\"Cancer\",-0.706550323,-0.4700897671,-0.699050323,-0.7124,-0.7124,null,0.0,false,null,0.0,\"\",0.1],[\"04:19:07 PM\",\"04:19:07 PM\",\"2026-02-21T10:49:07+00:00\",\"DSC\",\"Sustained Team B advantage\",\"Ju\",\"Sa\",\"Me\",\"Cancer\",-0.706550323,-0.4700897671,-0.699050323,-0.7124,-0.7124,null,0.0,false,null,0.0,\"\",0.1],[\"04:22:11 PM\",\"04:22:11 PM\",\"2026-02-21T10:52:11+00:00\",\"DSC\",\"Sustained Team B advantage\",\"Sa\",\"Sa\",\"Me\",\"Cancer\",-0.706550323,-0.4700897671,-0.699050323,-0.7124,-0.7124,null,0.0,false,null,0.0,\"\",0.8],[\"04:25:07 PM\",\"04:25:07 PM\",\"2026-02-21T10:55:07+00:00\",\"BOTH SL DSC (NOTE IT)\",\"Peak Momentum: Team B strongest phase\",\"Ke\",\"Sa\",\"Ke\",\"Cancer\",-0.706550323,-0.4700897671,-1.0895,-0.9574,-0.9574,null,0.0,false,null,0.0,\"\",0.7],[\"04:28:15 PM\",\"04:28:15 PM\",\"2026-02-21T10:58:15+00:00\",\"BOTH SL DSC (NOTE IT)\",\"Sustained Team B advantage\",\"Su\",\"Sa\",\"Ke\",\"Cancer\",-0.706550323,-0.4700897671,-1.0895,-0.9574,-0.9574,null,0.0,false,null,0.0,\"\",0.1]]}",
+  "ref_timeline_df": "{\"columns\":[\"Time Range\",\"A\",\"B\",\"Verdict\",\"Duration\"],\"index\":[0,1,2,3],\"data\":[[\"15:30-15:48\",\"30%\",\"70%\",\"DSC\",\"18m\"],[\"15:46-15:55\",\"30%\",\"70%\",\"DSC (NOTE IT)\",\"9m\"],[\"15:54-16:25\",\"20%\",\"80%\",\"DSC\",\"30m\"],[\"16:25-16:31\",\"20%\",\"80%\",\"BOTH SL DSC (NOTE IT)\",\"6m\"]]}",
+  "ref_timeline_error": null,
+  "match_details": {
+    "team_a": "Team A",
+    "team_b": "Team B",
+    "lat": 19.076,
+    "lon": 72.8777,
+    "datetime_utc": "2026-02-21T10:00:00+00:00",
+    "duration_hours": 1.0,
+    "timezone": "Asia/Kolkata",
+    "ayanamsa": "KRISHNAMURTI"
+  },
+  "status": "success"
+}

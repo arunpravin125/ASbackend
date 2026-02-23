@@ -1,0 +1,3 @@
+# Auto-normalize text files and ensure Python files use LF in the repository
+* text=auto
+*.py text eol=lf

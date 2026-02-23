@@ -1,0 +1,408 @@
+import swisseph as swe
+import pandas as pd
+from datetime import datetime, timedelta
+import os
+
+def get_ephe_path():
+    """
+    Determines the correct path for the Swiss Ephemeris data files,
+    making it compatible with local execution and Streamlit Cloud deployment.
+    """
+    # The 'swisseph' directory is expected to be in the project root.
+    # This script is in kp_core, so we go up one level.
+    project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    ephe_path = os.path.join(project_root, 'swisseph')
+    
+    return ephe_path
+
+# --- Constants and Mappings ---
+
+PLANET_NAMES = {
+    swe.SUN: 'Sun', swe.MOON: 'Moon', swe.MARS: 'Mars', swe.MERCURY: 'Mercury',
+    swe.JUPITER: 'Jupiter', swe.VENUS: 'Venus', swe.SATURN: 'Saturn',
+    swe.MEAN_NODE: 'Rahu', -swe.MEAN_NODE: 'Ketu'
+}
+
+# Short planet names for display
+PLANET_SHORT_NAMES = {
+    'Sun': 'Su', 'Moon': 'Mo', 'Mars': 'Ma', 'Mercury': 'Me', 'Jupiter': 'Ju',
+    'Venus': 'Ve', 'Saturn': 'Sa', 'Rahu': 'Ra', 'Ketu': 'Ke', 'Asc': 'Asc'
+}
+
+# Reverse mapping for standardization
+SHORT_TO_FULL_NAMES = {
+    'Su': 'Sun', 'Mo': 'Moon', 'Ma': 'Mars', 'Me': 'Mercury', 'Ju': 'Jupiter',
+    'Ve': 'Venus', 'Sa': 'Saturn', 'Ra': 'Rahu', 'Ke': 'Ketu', 'Asc': 'Asc'
+}
+
+class PlanetNameUtils:
+    """Centralized utility class for planet name standardization."""
+    
+    @staticmethod
+    def to_full_name(name: str) -> str:
+        """Convert any planet name (short or full) to standardized full name."""
+        if not name or pd.isna(name):
+            return name
+        
+        # If already full name, return as is
+        if name in PLANET_SHORT_NAMES:
+            return name
+        
+        # If short name, convert to full
+        if name in SHORT_TO_FULL_NAMES:
+            return SHORT_TO_FULL_NAMES[name]
+        
+        # If not found, return as is (might be a typo or special case)
+        return name
+    
+    @staticmethod
+    def to_short_name(name: str) -> str:
+        """Convert any planet name (short or full) to standardized short name."""
+        if not name or pd.isna(name):
+            return name
+        
+        # If already short name, return as is
+        if name in SHORT_TO_FULL_NAMES:
+            return name
+        
+        # If full name, convert to short
+        if name in PLANET_SHORT_NAMES:
+            return PLANET_SHORT_NAMES[name]
+        
+        # If not found, return as is
+        return name
+    
+    @staticmethod
+    def standardize_for_index(name: str) -> str:
+        """Standardize planet name for DataFrame index lookups (always use full names)."""
+        return PlanetNameUtils.to_full_name(name)
+    
+    @staticmethod
+    def standardize_for_display(name: str, is_retrograde: bool = False) -> str:
+        """Standardize planet name for display purposes (use short names)."""
+        short_name = PlanetNameUtils.to_short_name(name)
+        if is_retrograde and short_name not in ['Ra', 'Ke']:  # Don't add (R) to Rahu/Ketu as they're always retrograde
+            return f"(R){short_name}"
+        return short_name
+
+ZODIAC_SIGNS = [
+    "Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra",
+    "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"
+]
+
+SIGN_LORDS = {
+    "Aries": "Mars", "Taurus": "Venus", "Gemini": "Mercury", "Cancer": "Moon",
+    "Leo": "Sun", "Virgo": "Mercury", "Libra": "Venus", "Scorpio": "Mars",
+    "Sagittarius": "Jupiter", "Capricorn": "Saturn", "Aquarius": "Saturn", "Pisces": "Jupiter"
+}
+
+NAKSHATRA_LORDS = [
+    "Ketu", "Venus", "Sun", "Moon", "Mars", "Rahu", "Jupiter",
+    "Saturn", "Mercury"
+] * 3
+
+# This table is the heart of the Sub-Lord calculation in KP.
+# It's derived from the Vimsottari Dasha sequence but applied to the zodiac.
+SUB_LORD_SEQUENCE = [
+    "Ke", "Ve", "Su", "Mo", "Ma", "Ra", "Ju", "Sa", "Me"
+]
+
+# Vimsottari Dasha years for each planet lord
+DASA_YEARS = {
+    "Ke": 7, "Ve": 20, "Su": 6, "Mo": 10, "Ma": 7,
+    "Ra": 18, "Ju": 16, "Sa": 19, "Me": 17
+}
+TOTAL_DASA_YEARS = 120
+
+class KPEngine:
+    """
+    Handles core KP astrological calculations.
+    """
+    def __init__(self, dt, lat, lon, ayanamsa='KRISHNAMURTI'):
+        """
+        Initializes the engine with date, time, and location.
+
+        Args:
+            dt (datetime): UTC datetime object.
+            lat (float): Latitude.
+            lon (float): Longitude.
+            ayanamsa (str): Ayanamsa to use - 'KRISHNAMURTI', 'LAHIRI', or 'RAMAN'
+        """
+        self.utc_dt = dt
+        self.lat = lat
+        self.lon = lon
+        self.ayanamsa = ayanamsa
+        self.jd = swe.julday(self.utc_dt.year, self.utc_dt.month, self.utc_dt.day, 
+                             self.utc_dt.hour + self.utc_dt.minute/60 + self.utc_dt.second/3600)
+        
+        # Set Swiss Ephemeris path
+        swe.set_ephe_path(get_ephe_path())
+        
+        # Set sidereal mode with appropriate ayanamsa
+        self._set_ayanamsa(ayanamsa)
+
+        self.planets = self._calculate_all_body_details()
+        self.cusps = self._calculate_all_cusp_details()
+        self.planets['Asc'] = self.cusps[1] # Ensure Asc is in planets list
+
+    def _set_ayanamsa(self, ayanamsa: str):
+        """
+        Sets the ayanamsa for sidereal calculations.
+        
+        Args:
+            ayanamsa (str): Ayanamsa type
+        """
+        ayanamsa_mapping = {
+            'KRISHNAMURTI': swe.SIDM_KRISHNAMURTI,
+            'LAHIRI': swe.SIDM_LAHIRI,
+            'RAMAN': swe.SIDM_RAMAN,
+            'TRUE_CITRA': swe.SIDM_TRUE_CITRA,
+            'KP': swe.SIDM_KRISHNAMURTI  # Alias for Krishnamurti
+        }
+        
+        sidm = ayanamsa_mapping.get(ayanamsa.upper(), swe.SIDM_KRISHNAMURTI)
+        swe.set_sid_mode(sidm, 0, 0)
+        
+        # Calculate current ayanamsa value for reference
+        self.ayanamsa_value = swe.get_ayanamsa_ut(self.jd)
+
+    def _get_lordships(self, longitude):
+        """
+        Calculates Nakshatra, Sub, Sub-Sub, and Sub-Sub-Sub Lords for a given longitude
+        using precise Vimsottari Dasha proportions.
+        """
+        # --- Nakshatra (Star Lord) Calculation ---
+        nakshatra_span = 13 + 1/3
+        nakshatra_num = int(longitude / nakshatra_span)
+        nakshatra_lord_name = NAKSHATRA_LORDS[nakshatra_num]
+        nakshatra_lord = PLANET_SHORT_NAMES[nakshatra_lord_name]
+
+        # --- Sub Lord Calculation ---
+        start_of_nakshatra = nakshatra_num * nakshatra_span
+        arc_in_nakshatra = longitude - start_of_nakshatra
+        
+        position_in_nakshatra = 0
+        sub_lord = None
+        # The sequence of sub-lords within a nakshatra follows the dasa sequence
+        # starting from the nakshatra lord itself.
+        sub_lord_dasa_sequence = SUB_LORD_SEQUENCE[SUB_LORD_SEQUENCE.index(nakshatra_lord):] + \
+                                 SUB_LORD_SEQUENCE[:SUB_LORD_SEQUENCE.index(nakshatra_lord)]
+
+        for lord in sub_lord_dasa_sequence:
+            sub_lord_span = (DASA_YEARS[lord] / TOTAL_DASA_YEARS) * nakshatra_span
+            if arc_in_nakshatra >= position_in_nakshatra and arc_in_nakshatra < position_in_nakshatra + sub_lord_span:
+                sub_lord = lord
+                break
+            position_in_nakshatra += sub_lord_span
+
+        # --- Sub-Sub Lord Calculation ---
+        arc_in_sub_lord = arc_in_nakshatra - position_in_nakshatra
+        
+        position_in_sub_lord = 0
+        sub_sub_lord = None
+        # The sequence of sub-sub-lords within a sub-lord period also follows the dasa sequence,
+        # starting from the sub-lord itself.
+        sub_sub_lord_dasa_sequence = SUB_LORD_SEQUENCE[SUB_LORD_SEQUENCE.index(sub_lord):] + \
+                                     SUB_LORD_SEQUENCE[:SUB_LORD_SEQUENCE.index(sub_lord)]
+
+        for lord in sub_sub_lord_dasa_sequence:
+            # The span of a sub-sub-lord within a sub-lord's arc
+            sub_sub_lord_span = (DASA_YEARS[lord] / TOTAL_DASA_YEARS) * ((DASA_YEARS[sub_lord] / TOTAL_DASA_YEARS) * nakshatra_span)
+            if arc_in_sub_lord >= position_in_sub_lord and arc_in_sub_lord < position_in_sub_lord + sub_sub_lord_span:
+                sub_sub_lord = lord
+                break
+            position_in_sub_lord += sub_sub_lord_span
+
+        # --- Sub-Sub-Sub Lord Calculation ---
+        arc_in_sub_sub_lord = arc_in_sub_lord - position_in_sub_lord
+        
+        position_in_sub_sub_lord = 0
+        sub_sub_sub_lord = None
+        # The sequence of sub-sub-sub-lords within a sub-sub-lord period also follows the dasa sequence,
+        # starting from the sub-sub-lord itself.
+        sub_sub_sub_lord_dasa_sequence = SUB_LORD_SEQUENCE[SUB_LORD_SEQUENCE.index(sub_sub_lord):] + \
+                                         SUB_LORD_SEQUENCE[:SUB_LORD_SEQUENCE.index(sub_sub_lord)]
+
+        for lord in sub_sub_sub_lord_dasa_sequence:
+            # The span of a sub-sub-sub-lord within a sub-sub-lord's arc
+            sub_sub_sub_lord_span = (DASA_YEARS[lord] / TOTAL_DASA_YEARS) * ((DASA_YEARS[sub_sub_lord] / TOTAL_DASA_YEARS) * ((DASA_YEARS[sub_lord] / TOTAL_DASA_YEARS) * nakshatra_span))
+            if arc_in_sub_sub_lord >= position_in_sub_sub_lord and arc_in_sub_sub_lord < position_in_sub_sub_lord + sub_sub_sub_lord_span:
+                sub_sub_sub_lord = lord
+                break
+            position_in_sub_sub_lord += sub_sub_sub_lord_span
+
+        return nakshatra_lord, sub_lord, sub_sub_lord, sub_sub_sub_lord
+
+    def _calculate_all_body_details(self):
+        """Calculates positions and lordships for all planets using sidereal coordinates."""
+        planet_data = {}
+        for p_id, name in PLANET_NAMES.items():
+            if name == 'Asc': continue # Handled in cusps
+
+            is_retrograde = False
+            if name in ['Rahu', 'Ketu']:
+                # pos is an immutable tuple, so we can't modify it directly.
+                pos, _ = swe.calc_ut(self.jd, swe.MEAN_NODE, swe.FLG_SWIEPH | swe.FLG_SIDEREAL | swe.FLG_SPEED)
+                longitude = pos[0]
+                speed = pos[3]  # Daily motion in longitude
+                if name == 'Ketu':
+                    # Ketu is 180 degrees opposite Rahu.
+                    longitude = (longitude + 180) % 360
+                # Rahu and Ketu are always retrograde by nature
+                is_retrograde = True
+            else:
+                pos, _ = swe.calc_ut(self.jd, p_id, swe.FLG_SWIEPH | swe.FLG_SIDEREAL | swe.FLG_SPEED)
+                longitude = pos[0]
+                speed = pos[3]  # Daily motion in longitude
+                # Planet is retrograde if speed is negative
+                is_retrograde = speed < 0
+
+            sign_num = int(longitude / 30)
+            sign = ZODIAC_SIGNS[sign_num]
+            nl, sl, ssl, sssl = self._get_lordships(longitude)
+
+            planet_data[name] = {
+                'longitude': longitude,
+                'sign': sign,
+                'sign_lord': PLANET_SHORT_NAMES[SIGN_LORDS[sign]],
+                'nl': nl,
+                'sl': sl,
+                'ssl': ssl,
+                'sssl': sssl,
+                'is_retrograde': is_retrograde
+            }
+        return planet_data
+
+    def _calculate_all_cusp_details(self):
+        """Calculates positions and lordships for all cusps using sidereal coordinates."""
+        cusps, ascmc = swe.houses(self.jd, self.lat, self.lon, b'P')
+        cusp_data = {}
+        for i in range(12):
+            longitude = cusps[i]
+            # Convert to sidereal by subtracting ayanamsa
+            longitude = (longitude - self.ayanamsa_value) % 360
+            
+            sign_num = int(longitude / 30)
+            sign = ZODIAC_SIGNS[sign_num]
+            nl, sl, ssl, sssl = self._get_lordships(longitude)
+
+            cusp_data[i + 1] = {
+                'longitude': longitude,
+                'sign': sign,
+                'sign_lord': PLANET_SHORT_NAMES[SIGN_LORDS[sign]],
+                'nl': nl,
+                'sl': sl,
+                'ssl': ssl,
+                'sssl': sssl
+            }
+        return cusp_data
+
+    def get_planet_details(self, planet_name):
+        """Returns the full details for a given planet."""
+        if planet_name not in self.planets:
+            return None
+        return self.planets[planet_name]
+
+    def get_all_planets_df(self):
+        """Returns all planetary data as a pandas DataFrame."""
+        df = pd.DataFrame.from_dict(self.planets, orient='index')
+        df.index.name = 'Planet'
+        # We will add Nakshatra, Sub Lord, Sub-Sub Lord columns later
+        return df
+
+    def get_cusp_details(self, cusp_number):
+        """Returns the details for a given cusp."""
+        if cusp_number not in self.cusps:
+            return None
+        return self.cusps[cusp_number]
+
+    def get_all_cusps_df(self):
+        """Returns all cusp data as a pandas DataFrame."""
+        df = pd.DataFrame.from_dict(self.cusps, orient='index')
+        df.index.name = 'Cusp'
+        return df
+
+    def get_cusp_longitude_at_time(self, dt_utc: datetime, cusp_id: int):
+        """
+        Calculates the sidereal longitude of a specific cusp at a given time.
+        This is a dynamic calculation needed for timeline generation.
+        """
+        if not (1 <= cusp_id <= 12):
+            raise ValueError("Cusp ID must be between 1 and 12.")
+
+        jd = swe.julday(dt_utc.year, dt_utc.month, dt_utc.day, 
+                        dt_utc.hour + dt_utc.minute/60 + dt_utc.second/3600)
+        
+        # Calculate cusps for the given time, using the engine's lat/lon
+        cusps, _ = swe.houses(jd, self.lat, self.lon, b'P')
+        
+        # Convert to sidereal by subtracting ayanamsa
+        ayanamsa_at_time = swe.get_ayanamsa_ut(jd)
+        longitude = (cusps[cusp_id - 1] - ayanamsa_at_time) % 360
+        
+        return longitude
+
+    def get_ayanamsa_info(self):
+        """
+        Returns information about the current ayanamsa being used.
+        
+        Returns:
+            dict: Ayanamsa information including type and value
+        """
+        return {
+            'type': self.ayanamsa,
+            'value_degrees': self.ayanamsa_value,
+            'value_dms': self._decimal_to_dms(self.ayanamsa_value)
+        }
+    
+    def _decimal_to_dms(self, decimal_degrees):
+        """
+        Converts decimal degrees to degrees, minutes, seconds format.
+        
+        Args:
+            decimal_degrees (float): Decimal degrees
+            
+        Returns:
+            str: Formatted string in DD°MM'SS" format
+        """
+        degrees = int(decimal_degrees)
+        minutes_float = (decimal_degrees - degrees) * 60
+        minutes = int(minutes_float)
+        seconds = (minutes_float - minutes) * 60
+        return f"{degrees}°{minutes:02d}'{seconds:05.2f}\""
+
+if __name__ == '__main__':
+    # Example Usage for testing
+    # This requires the Swiss Ephemeris files to be installed and path set
+    try:
+        # --- You might need to set the SWEP_PATH environment variable ---
+        # For example: os.environ['SWEP_PATH'] = 'C:/sweph/ephe'
+        
+        utc_now = datetime.utcnow()
+        print(f"Test time: {utc_now} UTC")
+        print("Location: Mumbai (19.0760°N, 72.8777°E)")
+        print()
+        
+        # Test with different ayanamsas to show the difference
+        for ayanamsa in ['KRISHNAMURTI', 'LAHIRI']:
+            print(f"=== {ayanamsa} AYANAMSA ===")
+            engine = KPEngine(dt=utc_now, lat=19.0760, lon=72.8777, ayanamsa=ayanamsa)
+            
+            ayanamsa_info = engine.get_ayanamsa_info()
+            print(f"Ayanamsa Value: {ayanamsa_info['value_dms']} ({ayanamsa_info['value_degrees']:.6f}°)")
+            
+            # Show Moon position as example
+            moon_details = engine.get_planet_details('Moon')
+            if moon_details:
+                print(f"Moon: {moon_details['longitude']:.4f}° in {moon_details['sign']} (NL: {moon_details['nl']}, SL: {moon_details['sl']}, SSL: {moon_details['ssl']})")
+            
+            # Show 1st cusp
+            cusp_1 = engine.get_cusp_details(1)
+            if cusp_1:
+                print(f"1st Cusp: {cusp_1['longitude']:.4f}° in {cusp_1['sign']} (NL: {cusp_1['nl']}, SL: {cusp_1['sl']}, SSL: {cusp_1['ssl']})")
+            print()
+
+    except Exception as e:
+        print(f"An error occurred. Please ensure the Swiss Ephemeris path is set correctly.")
+        print(f"Error: {e}")
+        print("Hint: Set the SWEP_PATH environment variable to your Swiss Ephemeris files directory.") 

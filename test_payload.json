@@ -1,0 +1,10 @@
+{
+  "team_a": "Team A",
+  "team_b": "Team B",
+  "lat": 19.0760,
+  "lon": 72.8777,
+  "datetime_utc": "2026-02-21T10:00:00Z",
+  "duration_hours": 1.0,
+  "timezone": "Asia/Kolkata",
+  "ayanamsa": "KRISHNAMURTI"
+}
