@@ -41,7 +41,7 @@ async def startup_event():
     start_ping_job()
 
 async def ping_server():
-    api_url = os.getenv("API_URL")
+    api_url = os.getenv("API_URL", "https://asbackend-1-5q6u.onrender.com/")
     if not api_url:
         print("API_URL environment variable is not set. Skipping ping.")
         return
